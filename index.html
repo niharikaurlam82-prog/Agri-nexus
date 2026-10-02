@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Agri-Nexus</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4faf5;
+      color: #183b25;
+    }
+
+    nav {
+      background: white;
+      padding: 18px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px #00000015;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #18733c;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #234d32;
+      margin: 0 12px;
+      font-weight: bold;
+    }
+
+    button {
+      background: #18733c;
+      color: white;
+      border: none;
+      padding: 13px 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .hero {
+      min-height: 600px;
+      padding: 80px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 50px;
+      background: linear-gradient(135deg, #e8f7eb, white);
+    }
+
+    .hero-text {
+      max-width: 650px;
+    }
+
+    .tag {
+      color: #18733c;
+      font-weight: bold;
+      letter-spacing: 2px;
+      font-size: 13px;
+    }
+
+    h1 {
+      font-size: 55px;
+      margin: 18px 0;
+      line-height: 1.1;
+    }
+
+    h1 span {
+      color: #18733c;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #607066;
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
+
+    .hero-card {
+      background: white;
+      padding: 35px;
+      width: 350px;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px #00000015;
+    }
+
+    .score {
+      font-size: 70px;
+      color: #18733c;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .stats {
+      background: #123b24;
+      color: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .stats b {
+      display: block;
+      font-size: 28px;
+    }
+
+    .section {
+      padding: 80px 7%;
+    }
+
+    .section h2 {
+      font-size: 38px;
+      margin: 10px 0;
+    }
+
+    .section-intro {
+      color: #66756b;
+      margin-bottom: 30px;
+    }
+
+    .calculator {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 8px 25px #00000010;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 13px;
+      margin-top: 7px;
+      border: 1px solid #ccd8cf;
+      border-radius: 8px;
+    }
+
+    .result-score {
+      font-size: 55px;
+      color: #18733c;
+      font-weight: bold;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .result-item {
+      background: #eff8f1;
+      padding: 18px;
+      border-radius: 10px;
+    }
+
+    .result-item small {
+      color: #18733c;
+      font-weight: bold;
+    }
+
+    .market {
+      background: #eff8f1;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px #0000000d;
+    }
+
+    .card .emoji {
+      font-size: 35px;
+    }
+
+    .card h3 {
+      margin: 12px 0;
+    }
+
+    .price {
+      font-size: 22px;
+      font-weight: bold;
+      color: #18733c;
+    }
+
+    .journey {
+      display: flex;
+      gap: 15px;
+    }
+
+    .step {
+      flex: 1;
+      background: #eff8f1;
+      padding: 22px;
+      border-radius: 15px;
+    }
+
+    .number {
+      background: #18733c;
+      color: white;
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      margin-bottom: 12px;
+      font-weight: bold;
+    }
+
+    footer {
+      background: #123b24;
+      color: white;
+      padding: 30px 7%;
+      text-align: center;
+    }
+
+    @media(max-width: 800px) {
+      .hero,
+      .calculator {
+        flex-direction: column;
+        display: block;
+      }
+
+      .hero-card {
+        width: 100%;
+        margin-top: 30px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .journey {
+        flex-direction: column;
+      }
+
+      nav a {
+        display: none;
+      }
+    }
+  </style>
+  <style>
+/* Professional UI Upgrade */
+.card {
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+button {
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+input, select {
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+
+.section-title h2 {
+  margin-bottom: 8px;
+}
+
+.section-title p {
+  opacity: 0.8;
+}
+</style>
+<style>
+button {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 22px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+input, select {
+  border-radius: 10px;
+  padding: 11px;
+}
+</style>
+<style>
+@media (max-width: 768px) {
+  .container {
+    width: 92%;
+  }
+
+  h1 {
+    font-size: 34px;
+  }
+
+  h2 {
+    font-size: 26px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  input, select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">🌾 Agri-Nexus</div>
+
+  <div>
+    <a href="#home">Home</a>
+    <a href="#opportunity">Opportunity</a>
+    <a href="#market">Market</a>
+    <a href="#journey">Journey</a>
+  </div>
+
+  <button onclick="goToOpportunity()">Try Demo</button>
+</nav>
+
+<section class="hero" id="home">
+
+  <div class="hero-text">
+
+    <div class="tag">SMART AGRICULTURE PLATFORM</div>
+
+    <h1>
+      Know what to
+      <span>grow,</span><br>
+      where, when & for whom.
+    </h1>
+
+    <p>
+      Agri-Nexus helps farmers make better crop decisions
+      using soil, water, season, market demand, buyers and logistics.
+    </p>
+
+    <button onclick="goToOpportunity()">
+      Check Crop Opportunity
+    </button>
+
+  </div>
+
+  <div class="hero-card">
+
+    <b>Today's Opportunity</b>
+
+    <div class="score">87/100</div>
+
+    <h2>🍅 Tomato</h2>
+
+    <p>High demand • Good season • Nearby buyers</p>
+
+  </div>
+
+</section>
+
+<section class="stats">
+
+  <div>
+    <b>4</b>
+    Decision Factors
+  </div>
+
+  <div>
+    <b>100</b>
+    Maximum Score
+  </div>
+
+  <div>
+    <b>24/7</b>
+    Market Monitoring
+  </div>
+
+  <div>
+    <b>1</b>
+    Unified Platform
+  </div>
+
+</section>
+
+<section class="section" id="opportunity">
+
+  <div class="tag">01 • AI CROP OPPORTUNITY</div>
+
+  <h2>Find the right crop opportunity</h2>
+
+  <p class="section-intro">
+    Enter farm details and get a crop opportunity score.
+  </p>
+
+  <div class="calculator">
+
+    <div class="box">
+
+      <h2>🌱 Farm Details</h2>
+
+      <label>Location</label>
+
+      <select id="location">
+        <option>Vizag</option>
+        <option>Srikakulam</option>
+        <option>Vizianagaram</option>
+        <option>Rajam</option>
+      </select>
+
+      <label>Soil Type</label>
+
+      <select id="soil">
+        <option>Red Soil</option>
+        <option>Black Soil</option>
+        <option>Alluvial Soil</option>
+      </select>
+
+      <label>Water Availability</label>
+
+      <select id="water">
+        <option>Good</option>
+        <option>Medium</option>
+        <option>Low</option>
+      </select>
+
+      <label>Season</label>
+
+      <select id="season">
+        <option>Kharif</option>
+        <option>Rabi</option>
+        <option>Summer</option>
+      </select>
+
+      <label>Expected Quantity (tonnes)</label>
+
+      <input id="quantity" type="number" value="5">
+
+      <br><br>
+
+      <button onclick="calculate()">
+        Calculate Opportunity
+      </button>
+
+    </div>
+
+    <div class="box">
+
+      <p>Recommended Crop</p>
+
+      <h2 id="crop">🍅 Tomato</h2>
+
+      <div class="result-score" id="score">
+        87
+      </div>
+
+      <p>
+        Opportunity Score / 100
+      </p>
+
+      <div class="result-grid">
+
+        <div class="result-item">
+          <small>WHERE</small>
+          <br>
+          <b id="where">Vizag</b>
+        </div>
+
+        <div class="result-item">
+          <small>WHEN</small>
+          <br>
+          <b id="when">Kharif</b>
+        </div>
+
+        <div class="result-item">
+          <small>WHO</small>
+          <br>
+          <b id="who">Local Buyers</b>
+        </div>
+
+        <div class="result-item">
+          <small>QUANTITY</small>
+          <br>
+          <b id="qty">5 tonnes</b>
+        </div>
+
+      </div>
+
+      <br>
+
+      <p id="message">
+        Strong opportunity based on the selected farm conditions.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="section market" id="market">
+
+  <div class="tag">02 • MARKET DEMAND</div>
+
+  <h2>Market Demand</h2>
+
+  <p class="section-intro">
+    Sample market data for hackathon demonstration.
+  </p>
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="emoji">🍅</div>
+      <h3>Tomato</h3>
+      <p>High Demand</p>
+      <br>
+      <div class="price">₹28/kg</div>
+    </div>
+
+    <div class="card">
+      <div class="emoji">🌶️</div>
+      <h3>Chilli</h3>
+      <p>Rising Demand</p>
+      <br>
+      <div class="price">₹92/kg</div>
+    </div>
+
+    <div class="card">
+      <div class="emoji">🌽</div>
+      <h3>Maize</h3>
+      <p>Stable Demand</p>
+      <br>
+      <div class="price">₹23/kg</div>
+    </div>
+
+    <div class="card">
+      <div class="emoji">🥜</div>
+      <h3>Groundnut</h3>
+      <p>Moderate Demand</p>
+      <br>
+      <div class="price">₹58/kg</div>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="section" id="journey">
+
+  <div class="tag">03 • FARMER JOURNEY</div>
+
+  <h2>From Field to Settlement</h2>
+
+  <br>
+
+  <div class="journey">
+
+    <div class="step">
+      <div class="number">1</div>
+      <h3>Farm Details</h3>
+      <p>Enter location, soil, water and season.</p>
+    </div>
+
+    <div class="step">
+      <div class="number">2</div>
+      <h3>Crop Score</h3>
+      <p>Calculate the opportunity score.</p>
+    </div>
+
+    <div class="step">
+      <div class="number">3</div>
+      <h3>Find Buyer</h3>
+      <p>Connect crop quantity with buyers.</p>
+    </div>
+
+    <div class="step">
+      <div class="number">4</div>
+      <h3>Logistics</h3>
+      <p>Plan transportation to the market.</p>
+    </div>
+
+    <div class="step">
+      <div class="number">5</div>
+      <h3>Settlement</h3>
+      <p>Track delivery and payment.</p>
+    </div>
+
+  </div>
+
+</section>
+
+<footer>
+
+  <h2>🌾 Agri-Nexus</h2>
+
+  <p>
+    Smart Crop Opportunity Platform
+  </p>
+
+</footer>
+
+<script>
+
+function goToOpportunity() {
+
+  document
+    .getElementById("opportunity")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+function calculate() {
+
+  let location =
+    document.getElementById("location").value;
+
+  let soil =
+    document.getElementById("soil").value;
+
+  let water =
+    document.getElementById("water").value;
+
+  let season =
+    document.getElementById("season").value;
+
+  let quantity =
+    document.getElementById("quantity").value;
+
+  let score = 80;
+
+  if (water === "Good") {
+    score += 7;
+  }
+
+  if (water === "Low") {
+    score -= 15;
+  }
+
+  if (soil === "Red Soil") {
+    score += 3;
+  }
+
+  if (season === "Summer") {
+    score -= 5;
+  }
+
+  if (quantity <= 5) {
+    score += 2;
+  }
+
+  if (score > 98) {
+    score = 98;
+  }
+
+  let crop = "🍅 Tomato";
+  let buyer = "Local Buyers";
+
+  if (location === "Srikakulam") {
+    crop = "🌶️ Chilli";
+    buyer = "Wholesale Buyers";
+  }
+
+  if (location === "Vizianagaram") {
+    crop = "🌽 Maize";
+    buyer = "Processing Units";
+  }
+
+  if (location === "Rajam") {
+    crop = "🥜 Groundnut";
+    buyer = "Traders";
+  }
+
+  document.getElementById("crop").innerText = crop;
+  document.getElementById("score").innerText = score;
+  document.getElementById("where").innerText = location;
+  document.getElementById("when").innerText = season;
+  document.getElementById("who").innerText = buyer;
+  document.getElementById("qty").innerText =
+    quantity + " tonnes";
+
+  document.getElementById("message").innerText =
+    "Opportunity calculated using the selected farm conditions and demo market data.";
+
+}
+
+</script>
+<!-- Buyer Matching -->
+<section class="section" id="buyer-match">
+  <div class="section-title">
+    <span>BUYER MATCHING</span>
+    <h2>Connect your crop quantity with buyers</h2>
+    <p>Enter your crop and quantity to see suitable buyer demand.</p>
+  </div>
+
+  <div class="card">
+    <label>Crop</label>
+    <select id="buyerCrop">
+      <option>Tomato</option>
+      <option>Chilli</option>
+      <option>Maize</option>
+      <option>Groundnut</option>
+    </select>
+
+    <label>Quantity (Quintals)</label>
+    <input type="number" id="buyerQty" placeholder="Example: 5" min="1">
+
+    <button onclick="matchBuyer()">Find Buyer</button>
+
+    <div id="buyerResult" style="margin-top:20px;"></div>
+  </div>
+</section>
+
+<script>
+function matchBuyer() {
+  const crop = document.getElementById("buyerCrop").value;
+  const qty = document.getElementById("buyerQty").value;
+  const result = document.getElementById("buyerResult");
+
+  if (!qty || qty <= 0) {
+    result.innerHTML = "<p>Please enter a valid quantity.</p>";
+    return;
+  }
+
+  const buyers = {
+    Tomato: "Local vegetable wholesalers",
+    Chilli: "Spice traders and processing units",
+    Maize: "Poultry feed companies",
+    Groundnut: "Oil mills and food processors"
+  };
+
+  result.innerHTML = `
+    <h3>Buyer Match Found ✅</h3>
+    <p><strong>Crop:</strong> ${crop}</p>
+    <p><strong>Quantity:</strong> ${qty} quintals</p>
+    <p><strong>Potential Buyer:</strong> ${buyers[crop]}</p>
+    <p><strong>Demand:</strong> Higher demand</p>
+  `;
+}
+</script>
+<!-- Smart Crop Recommendation -->
+<section class="section" id="smart-crop">
+  <div class="section-title">
+    <span>SMART RECOMMENDATION</span>
+    <h2>Find the right crop for your farm</h2>
+    <p>Get a simple crop recommendation based on your farm conditions.</p>
+  </div>
+
+  <div class="card">
+    <label>Location</label>
+    <select id="smartLocation">
+      <option>Vizag</option>
+      <option>Srikakulam</option>
+      <option>Vizianagaram</option>
+      <option>Rajam</option>
+    </select>
+
+    <label>Soil Type</label>
+    <select id="smartSoil">
+      <option>Red Soil</option>
+      <option>Black Soil</option>
+      <option>Alluvial Soil</option>
+    </select>
+
+    <label>Water Availability</label>
+    <select id="smartWater">
+      <option>Good Water</option>
+      <option>Medium Water</option>
+      <option>Low Water</option>
+    </select>
+
+    <button onclick="recommendCrop()">Recommend Crop</button>
+
+    <div id="smartResult" style="margin-top:20px;"></div>
+  </div>
+</section>
+
+<script>
+function recommendCrop() {
+  const location = document.getElementById("smartLocation").value;
+  const soil = document.getElementById("smartSoil").value;
+  const water = document.getElementById("smartWater").value;
+  const result = document.getElementById("smartResult");
+
+  let crop = "Tomato";
+
+  if (soil === "Black Soil" && water === "Good Water") {
+    crop = "Maize";
+  } else if (soil === "Red Soil" && water === "Medium Water") {
+    crop = "Groundnut";
+  } else if (water === "Low Water") {
+    crop = "Groundnut";
+  } else if (location === "Srikakulam") {
+    crop = "Chilli";
+  }
+
+  result.innerHTML = `
+    <h3>Recommended Crop 🌱</h3>
+    <p><strong>Location:</strong> ${location}</p>
+    <p><strong>Soil:</strong> ${soil}</p>
+    <p><strong>Water:</strong> ${water}</p>
+    <p><strong>Suggested Crop:</strong> ${crop}</p>
+  `;
+}
+</script>
+<footer style="text-align:center; padding:30px 20px; margin-top:40px;">
+  <h3>Agri-Nexus 🌱</h3>
+  <p>Smart farming decisions for a better tomorrow.</p>
+  <p>© 2026 Agri-Nexus. All rights reserved.</p>
+</footer>
+</body>
+</html>
